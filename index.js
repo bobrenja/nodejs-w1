@@ -19,6 +19,10 @@ async function invokeAction({ action, id, name, phone, email }) {
       const data = await contacts.addContact(name, email, phone);
       console.table(data);
       break;
+
+    case 'remove':
+      const dataRemove = await contacts.removeContact(id);
+      console.table(dataRemove);
   }
 }
 

@@ -7,7 +7,6 @@ const contactsPath = path.join(process.cwd(), 'src', 'db', 'contacts.json');
 
 console.log(contactsPath);
 
-// TODO: задокументувати кожну функцію
 async function getContacts() {
   const data = await fs.readFile(contactsPath, 'utf-8');
   return JSON.parse(data);
@@ -19,12 +18,16 @@ async function getContactById(contactId) {
   return res || null;
 }
 
-function removeContact(contactId) {
-  // ...твій код
+async function removeContact(contactId) {
+  const dataContacts = await getContacts();
+  const index = dataContacts.findIndex(item => item.id === contactId);
+  if(index ===-1) return `not found ${contactId}`
+  const [res] = dataContacts.splice(index,1);
+  await fs.writeFile(contactsPath, JSON.stringify(dataContacts,null,2))
+  return res;
 }
 
 async function addContact(name, email, phone) {
-  // ...твій код
   const contacts = await getContacts();
   const newCotact = {
     id: nanoid(),
